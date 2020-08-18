@@ -1,4 +1,3 @@
-
 R_SARS %>% 
   filter(incubation_period == 5) %>%
   filter(R0 <= 50) %>%

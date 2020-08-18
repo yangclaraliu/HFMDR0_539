@@ -36,6 +36,10 @@ R_SARS %>%
             ME = quantile(R0, 0.5),
             UL = quantile(R0, 0.75)) %>% View()
   
+R_SARS %>% 
+  filter(incubation_period == 5) %>%
+  filter(year > 2016) %>% 
+  kruskal.test(R0 ~ subtype, data = .)
 
 R_SARS %>% 
   filter(incubation_period == 5) %>% 
