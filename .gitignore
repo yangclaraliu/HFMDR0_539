@@ -43,5 +43,5 @@ vignettes/*.pdf
 *.xlsx
 *.docx
 .Rproj.user
-/IGP_byOutbreak/*
+IGP_byOutbreak/
 *.tmp
