@@ -29,13 +29,34 @@ R_SARS %>%
 
 R_SARS %>% 
   filter(incubation_period == 5) %>% 
+  # mutate(phase = if_else(year < 2016, "pre", "post")) %>%  
+  # group_by(subtype, phase) %>% 
+  group_by(subtype) %>% 
+  summarise(LL = quantile(R0, 0.25),
+            ME = quantile(R0, 0.5),
+            UL = quantile(R0, 0.75)) %>% View()
+  
+
+R_SARS %>% 
+  filter(incubation_period == 5) %>% 
   group_by(year, subtype) %>% 
   dplyr::select(R0) %>% 
-  filter(year >= 2017) %>% 
-  # mutate(phase = if_else(year < 2016, "pre", "post")) %>% 
-  group_by(subtype) -> test # %>% 
+  # filter(year >= 2017) %>% 
+  mutate(phase = if_else(year < 2016, "pre", "post")) %>% 
+  group_by(subtype, phase) %>% group_split() -> test # %>% 
   # group_split() 
-  
+
+test %>% 
+  map(dplyr::select, subtype, phase) %>% 
+  map(distinct) %>% 
+  bind_rows()
+
+wilcox.test(test[[5]]$R0, # pre, EV-A71
+            test[[6]]$R0) # pre, CV-A16
+
+
+
+
 R_SARS %>% 
   filter(incubation_period == 5,
          subtype == "CV-A6") %>% 
@@ -45,16 +66,13 @@ R_SARS %>%
 kruskal.test(R0 ~ subtype, test)
 
 
-test %>% 
-  map(dplyr::select, subtype, phase) %>% 
-  map(distinct) %>% 
-  bind_rows()
+
+
 
 hist(test[[2]]$R0)
 hist(test[[6]]$R0)
 
-wilcox.test(test[[1]]$R0, # pre, EV-A71
-       test[[2]]$R0) # pre, CV-A16
+
 
 quantile(test[[1]]$R0, c(0.25,0.5,0.75))
 quantile(test[[2]]$R0, c(0.25,0.5,0.75))

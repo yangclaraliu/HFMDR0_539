@@ -42,5 +42,5 @@ vignettes/*.pdf
 *.csv
 *.xlsx
 *.docx
-
 .Rproj.user
+/IGP/*
