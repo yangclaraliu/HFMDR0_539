@@ -43,5 +43,9 @@ vignettes/*.pdf
 *.xlsx
 *.docx
 .Rproj.user
+<<<<<<< HEAD
 /IGP_byOutbreak/
+=======
+IGP_byOutbreak/
+>>>>>>> master
 *.tmp
