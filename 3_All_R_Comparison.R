@@ -142,12 +142,13 @@ all_R %>%
                         levels = c("R0","R0_adj_LL", "R0_adj_UL"),
                         labels = c("Raw Estimates", 
                                    "Adjusted Estimates\n(Optimistic)",
-                                   "Adjusted Estimates\n(Conservacitve)"))) %>%  
+                                   "Adjusted Estimates\n(Conservacitve)"))) %>% 
+  filter(x_metric == "Raw Estimates") %>% 
   ggplot() +
-  geom_point(aes(x = x, y = y, color = y_metric)) +
+  geom_point(aes(x = x, y = y, color = y_metric), size = 5, alpha = 0.5) +
   scale_x_log10() +
   scale_y_log10() +
-  facet_wrap(~x_metric, ncol = 1) +
+  # facet_wrap(~x_metric, ncol = 1) +
   geom_abline(intercept = 0, 
               slope = 1,
               size = 1.2) +
@@ -168,5 +169,5 @@ all_R %>%
 
 ggsave("figs/All_R.png",
        plot = p,
-       width = 10,
+       width = 20,
        height = 15)
