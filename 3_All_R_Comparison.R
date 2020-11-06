@@ -1,5 +1,6 @@
 pdfSI = R0::generation.time("weibull", c(3.7, 2.6))
 res <- list()
+
 for(i in 1:539){
   skip_to_next <- F
   tryCatch({
@@ -144,8 +145,9 @@ all_R %>%
                                    "Adjusted Estimates\n(Optimistic)",
                                    "Adjusted Estimates\n(Conservacitve)"))) %>% 
   filter(x_metric == "Raw Estimates") %>% 
-  ggplot() +
-  geom_point(aes(x = x, y = y, color = y_metric), size = 5, alpha = 0.5) +
+  ggplot(., aes(x = x, y = y, color = y_metric)) +
+  geom_point(size = 5, alpha = 0.5) +
+  geom_smooth(method = lm, se = F, size = 2) +
   scale_x_log10() +
   scale_y_log10() +
   # facet_wrap(~x_metric, ncol = 1) +
@@ -165,7 +167,7 @@ all_R %>%
         axis.title = element_text(size = 25),
         legend.title = element_text(size = 25),
         legend.text = element_text(size = 25),
-        panel.border = element_rect(color = "black")) -> p
+        panel.border = element_rect(color = "black"))  -> p
 
 ggsave("figs/All_R.png",
        plot = p,

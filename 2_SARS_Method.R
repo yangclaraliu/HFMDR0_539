@@ -32,28 +32,37 @@ if(!file.exists("results/R_SARS.rds")){
 } else {R_SARS <- read_rds("results/R_SARS.rds")}
 
 R_SARS %>% 
-  filter(R0 < 50) %>% 
+  # filter(R0 < 50) %>% 
+  mutate(year = factor(year),
+         incubation_period = paste0("Incubation Period = ", incubation_period, " days.")) %>% 
   ggplot() +
-  geom_density(aes(x = R0, 
-                   group = incubation_period,
-                   color = incubation_period,
-                   fill = incubation_period),
-               alpha = 0.2,
-               size = 1.2) +
-  cowplot::theme_cowplot() +  
+  geom_boxplot(aes(x = year,
+                   y = R0,
+                   fill = subtype)) +
+               #alpha = 0.2,
+               #size = 1.2) +
+  coord_cartesian(ylim = c(0,50)) +
+  #cowplot::theme_cowplot() +  
+  theme_bw()+
   ggsci::scale_color_nejm() +
   ggsci::scale_fill_nejm() +
   theme(legend.text = element_text(size = 20),
         legend.title = element_text(size = 20),
         axis.title = element_text(size = 20),
-        axis.text = element_text(size = 20)) +
-  labs(color = "Incubation\nPeriod",
-       fill = "Incubation\nPeriod",
-       y = "Probability Density") -> p
+        axis.text = element_text(size = 20),
+        strip.background = element_rect(fill = "NA"),
+        strip.text = element_text(size = 20),
+        axis.text.x = element_text(angle = 90),
+        legend.position = "bottom",
+        panel.grid = element_blank()) +
+  labs(fill = "Incubation Period",
+       x = "Year",
+       y = "R0") +
+  facet_grid(subtype~incubation_period) -> p
 
 ggsave(plot = p,
        filename = "figs/SA_IP.png",
-       width = 15,
+       width = 20,
        height = 15)
 
 R_SARS %>% 
@@ -113,7 +122,8 @@ plot_grid(
                   fill = NA), 
               size = 8,
               hjust = 0,
-              vjust = 1),
+              vjust = 1) +
+    ylim(0,30),
   NULL,
   p2 + 
     labs(y = "",
@@ -127,7 +137,8 @@ plot_grid(
                   fill = NA), 
               size = 8,
               hjust = 0,
-              vjust = 1), 
+              vjust = 1)+
+    ylim(0,30), 
   NULL,
   p3 + 
     labs(y = "",
@@ -140,7 +151,8 @@ plot_grid(
                   fill = NA), 
               size = 8,
               hjust = 0,
-              vjust = 1), 
+              vjust = 1)+
+    ylim(0,30), 
   # second row
   NULL, NULL, NULL, NULL, NULL,
   # third row
@@ -154,7 +166,8 @@ plot_grid(
                   fill = NA), 
               size = 8,
               hjust = 0,
-              vjust = 1),
+              vjust = 1) +
+    ylim(0,30),
   NULL,
   p5 + 
     labs(y = "",
@@ -168,7 +181,8 @@ plot_grid(
                   fill = NA), 
               size = 8,
               hjust = 0,
-              vjust = 1),
+              vjust = 1)+
+    ylim(0,75),
   NULL,
   NULL,
   # fourth row

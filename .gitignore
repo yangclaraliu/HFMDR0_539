@@ -45,6 +45,7 @@ vignettes/*.pdf
 *.csv
 *.xlsx
 *.docx
+*.doc
 .Rproj.user
 
 *.tmp

@@ -67,6 +67,7 @@ R_SARS %>%
   pull(R0) %>% 
   quantile(., c(0.25,0.5,0.75))
 
+R_SARS %>% 
 kruskal.test(R0 ~ subtype, test)
 
 
@@ -86,3 +87,80 @@ quantile(test[[5]]$R0, c(0.25,0.5,0.75))
 kruskal.test(R0~phase,
              data = test[[3]])
 
+R_SARS %>% 
+  filter(incubation_period == 5) %>% 
+  pivot_longer(cols = c(R0, R0_adj_LL, R0_adj_UL),
+               names_to = "strat",
+               values_to = "R0") %>%
+  mutate(phase = if_else(year < 2016, "pre", "post")) %>% 
+  mutate(strat = factor(strat,
+                        levels = c("R0","R0_adj_LL", "R0_adj_UL"),
+                        labels = c("Raw Estimates", 
+                                   "Adjusted Estimates\n(Optimistic)",
+                                   "Adjusted Estimates\n(Conservative)")),
+         year = factor(year)) %>% 
+  group_by(subtype,
+           strat) %>% 
+  # summarise(stats1 = median(R0),
+  #           stats1 = quantile(R0, 0.25))
+  filter(strat == "Raw Estimates") %>% 
+  # filter(strat == "Adjusted Estimates\n(Optimistic)") %>% 
+  # filter(strat == "Adjusted Estimates\n(Conservative)") %>% 
+  filter(subtype == "EV-A71") %>% 
+  kruskal.test(R0 ~ phase, data = .)
+
+"OutbreakSummary_20200703.xlsx" %>% 
+  read_excel() %>% 
+  dplyr::select(`病原学检测结果或排除原因`,
+                `学校类型`,
+                `发生场所`) %>% 
+  setNames(c("serotype",
+             "school_type",
+             "venue")) %>% 
+  group_by(serotype, venue) %>% 
+  tally() %>% 
+  left_join("OutbreakSummary_20200703.xlsx" %>% 
+              read_excel() %>% 
+              dplyr::select(`病原学检测结果或排除原因`,
+                            `学校类型`,
+                            `发生场所`) %>% 
+              setNames(c("serotype",
+                         "school_type",
+                         "venue")) %>% 
+              group_by(serotype) %>% 
+              tally(),
+            by = "serotype") %>% 
+  mutate(r = n.x/n.y) %>% 
+  dplyr::select(serotype, venue, r) %>% 
+  pivot_wider(names_from = venue,
+              values_from = r) %>% 
+  data.frame() %>% View()
+  xlsx::write.xlsx2(x = .,
+            file = "Outbreaks_by_School_Type.xlsx")
+
+  "OutbreakSummary_20200703.xlsx" %>% 
+    read_excel() %>% 
+    dplyr::select("省份",
+      `病原学检测结果或排除原因`,
+                  `学校类型`,
+                  `发生场所`) %>% 
+    setNames(c("province",
+               "serotype",
+               "school_type",
+               "venue")) %>% 
+    group_by(province, serotype) %>% 
+    tally() %>% 
+    pivot_wider(names_from = serotype,
+                values_from = n) %>% View()
+
+  outbreaks_char %>% 
+    group_by(subtype) %>% 
+    dplyr::select(subtype, exposed) %>% 
+    group_split() -> to_test
+
+  wilcox.test(to_test[[2]]$exposed, to_test[[3]]$exposed)
+  wilcox.test(to_test[[2]]$exposed, to_test[[1]]$exposed)
+  t.test(to_test[[2]]$exposed, to_test[[3]]$exposed)
+  t.test(to_test[[2]]$exposed, to_test[[1]]$exposed)
+  
+  
