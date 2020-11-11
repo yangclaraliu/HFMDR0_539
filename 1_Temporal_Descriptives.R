@@ -102,7 +102,7 @@ ggarrange(p_1,
                      "d"),
           font.label = list(size = 10, color = "black")) -> p
 
-ggsave(plot = p,
-       filename = "figs/fig_2.png",
-       width = 15,
-       height = 5)
+# ggsave(plot = p,
+#        filename = "figs/fig_2.png",
+#        width = 15,
+#        height = 5)

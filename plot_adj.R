@@ -1,9 +1,9 @@
 plot_adj <- function(subtype_tmp, strat_tmp){
   all_subtypes <- R_SARS$subtype %>% unique %>% sort
   color_id <- which(all_subtypes == subtype_tmp)
-  ylim_tmp <- case_when(subtype_tmp == "CV-A16" ~ c(0,30),
+  ylim_tmp <- case_when(subtype_tmp == "CV-A16" ~ c(0,60),
                         subtype_tmp == "CV-A6" ~ c(0, 60),
-                        subtype_tmp == "EV-A71" ~ c(0,85))
+                        subtype_tmp == "EV-A71" ~ c(0,60))
   
   R_SARS %>% 
     filter(incubation_period == 5) %>% 

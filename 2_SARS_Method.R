@@ -60,10 +60,10 @@ R_SARS %>%
        y = "R0") +
   facet_grid(subtype~incubation_period) -> p
 
-ggsave(plot = p,
-       filename = "figs/SA_IP.png",
-       width = 20,
-       height = 15)
+# ggsave(plot = p,
+#        filename = "figs/SA_IP.png",
+#        width = 20,
+#        height = 15)
 
 R_SARS %>% 
   filter(incubation_period == 5) %>% 
@@ -90,10 +90,10 @@ R_SARS %>%
         axis.title = element_text(size = 20),
         axis.text = element_text(size = 20)) -> p
 
-ggsave(plot = p,
-       filename = "figs/SA_Age.png",
-       width = 30,
-       height = 15)
+# ggsave(plot = p,
+#        filename = "figs/SA_Age.png",
+#        width = 30,
+#        height = 15)
 
 rm(p)
 
@@ -108,7 +108,6 @@ plot_adj("CV-A6","Adjusted Estimates\n(Optimistic)") -> p5
 plot_adj("EV-A71","Raw Estimates") -> p6
 plot_adj("EV-A71","Adjusted Estimates\n(Optimistic)") -> p7
 
-
 plot_grid(
   # first row
   p1 + 
@@ -117,13 +116,12 @@ plot_grid(
     theme(axis.text.x = element_blank(),
           legend.position = "none") +
     geom_text(aes(x = 0.6, 
-                  y = 30, 
+                  y = 60, 
                   label = "(a)", 
                   fill = NA), 
               size = 8,
               hjust = 0,
-              vjust = 1) +
-    ylim(0,30),
+              vjust = 1),
   NULL,
   p2 + 
     labs(y = "",
@@ -132,13 +130,12 @@ plot_grid(
           axis.text.y = element_blank(),
           legend.position = "none") +
     geom_text(aes(x = 0.6, 
-                  y = 30, 
+                  y = 60, 
                   label = "(b)", 
                   fill = NA), 
               size = 8,
               hjust = 0,
-              vjust = 1)+
-    ylim(0,30), 
+              vjust = 1), 
   NULL,
   p3 + 
     labs(y = "",
@@ -146,13 +143,12 @@ plot_grid(
     theme(legend.position = "none",
                             axis.text.y = element_blank()) +
     geom_text(aes(x = 0.6, 
-                  y = 30, 
+                  y = 60, 
                   label = "(c)", 
                   fill = NA), 
               size = 8,
               hjust = 0,
-              vjust = 1)+
-    ylim(0,30), 
+              vjust = 1), 
   # second row
   NULL, NULL, NULL, NULL, NULL,
   # third row
@@ -161,13 +157,12 @@ plot_grid(
     theme(axis.text.x = element_blank(),
              legend.position = "none") +
     geom_text(aes(x = 0.6, 
-                  y = 30, 
+                  y = 60, 
                   label = "(d)", 
                   fill = NA), 
               size = 8,
               hjust = 0,
-              vjust = 1) +
-    ylim(0,30),
+              vjust = 1),
   NULL,
   p5 + 
     labs(y = "",
@@ -176,13 +171,12 @@ plot_grid(
                             axis.text.y = element_blank(),
                             legend.position = "none")+
     geom_text(aes(x = 0.6, 
-                  y = 30, 
+                  y = 60, 
                   label = "(e)", 
                   fill = NA), 
               size = 8,
               hjust = 0,
-              vjust = 1)+
-    ylim(0,75),
+              vjust = 1),
   NULL,
   NULL,
   # fourth row
@@ -193,7 +187,7 @@ plot_grid(
          title = "Raw Estimates") + 
     theme(legend.position = "none") +
     geom_text(aes(x = 0.6, 
-                  y = 30, 
+                  y = 60, 
                   label = "(f)", 
                   fill = NA), 
               size = 8,
@@ -206,7 +200,7 @@ plot_grid(
     theme(legend.position = "none",
                            axis.text.y = element_blank())+
     geom_text(aes(x = 0.6, 
-                  y = 30, 
+                  y = 60, 
                   label = "(g)", 
                   fill = NA), 
               size = 8,
