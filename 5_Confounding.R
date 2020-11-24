@@ -36,5 +36,6 @@ R_SARS %>%
 
 ggsave(plot = p,
        filename = "figs/fig_5.png",
+       dpi = 600,
        width = 15,
        height = 5)

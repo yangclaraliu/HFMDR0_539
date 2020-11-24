@@ -217,4 +217,5 @@ plot_grid(
 ggsave(plot = p,
        filename = "figs/fig_4.png",
        width = 15,
+       dpi = 600,
        height = 15)
